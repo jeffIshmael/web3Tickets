@@ -8,7 +8,7 @@
 ------
 
 <div align="center">
-<img src="./Home.png" width=30% height=30%> | <img src="./Create event.png" width=30% height=30%> | <img src="./events.png" width=30% height=30%> | <img src="./image.png" width=30% height=30%>
+<img src="./Home.png" width=50% height=50%> | <img src="./Create event.png" width=50% height=50%> | <img src="./events.png" width=50% height=50%> | <img src="./image.png" width=50% height=50%>
 </div>
 
 ------
