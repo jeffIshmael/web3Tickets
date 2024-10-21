@@ -63,7 +63,7 @@ export function Footer({ showText }: { showText?: boolean }) {
 
             <li>
               <Link
-                href="https://github.com/johnnjuki/bloctickets"
+                href="https://github.com/jeffIshmael/web3Tickets"
                 rel="noreferrer"
                 target="_blank"
                 className="text-gray-700 transition hover:opacity-75"
