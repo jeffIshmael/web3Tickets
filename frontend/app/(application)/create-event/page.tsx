@@ -36,6 +36,7 @@ export default function CreateEventPage() {
   const { isPending, error, writeContractAsync } = useWriteContract();
   const router = useRouter();
   const [category, setCategory] = useState("");
+  const [ invalid, setInvalid]= useState(false);
 
   const uploadFile = async (fileToUpload: any) => {
     try {
@@ -67,8 +68,27 @@ export default function CreateEventPage() {
 
   const handleChange = (e: any) => {
     const selectedFile = e.target.files[0];
-    setFile(selectedFile);
-    uploadFile(selectedFile);
+
+    // Validate file type and size
+    const validTypes = ["image/jpeg", "image/png", "image/gif"]; // Allowed file types
+    const maxSize = 5 * 1024 * 1024; // 5 MB
+
+    if (!validTypes.includes(selectedFile.type)) {
+      setInvalid(true);
+      toast.error("Only JPG, PNG, and GIF files are allowed.");
+      return; // Prevent further execution if the file type is invalid
+    }
+
+    if (selectedFile.size > maxSize) {
+      setInvalid(true);
+      toast.error("File size must be less than 5 MB.");
+      return; // Prevent further execution if the file size exceeds the limit
+    }
+
+    setFile(selectedFile); // Only set the file if it's valid
+    uploadFile(selectedFile); // Proceed with the upload
+    setInvalid(false);
+    console.log(invalid);
   };
 
   const handleCategoryChange = (event: any) => {
@@ -97,6 +117,10 @@ export default function CreateEventPage() {
       toast.error("Please connect your wallet");
       return;
     }
+    if (invalid) {
+      toast.error("Please upload JPG,PNG and GIF");
+      return;
+    }   
     try {
       const dateObject = new Date(data.date as string);
       const dateInMilliseconds = dateObject.getTime();

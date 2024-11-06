@@ -221,11 +221,10 @@ export default function EventDetailsPage({
 
   const handleRatingSubmit = async () => {
     // Prevent form from refreshing the page
-    if(!passed){
+    if (!passed) {
       toast.error("You can only rate after the event has passed.");
       return;
     }
-
 
     if (!isConnected) {
       toast("Please connect wallet.");
@@ -283,7 +282,9 @@ export default function EventDetailsPage({
         <div className="container px-4 md:px-6">
           <div className="grid gap-10 lg:grid-cols-2">
             <div className="space-y-4">
-              <div className={`inline-block rounded-lg bg-blue-200 px-3 py-1 text-sm font-medium ${passed ? "text-red-600" : "text-blue-800"} `}>
+              <div
+                className={`inline-block rounded-lg bg-blue-200 px-3 py-1 text-sm font-medium ${passed ? "text-red-600" : "text-blue-800"} `}
+              >
                 {passed ? "Event passed" : "Upcoming Event"}
               </div>
               <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
@@ -305,12 +306,14 @@ export default function EventDetailsPage({
                   {free ? "Free" : `${Number(event?.[7]) / 10 ** 18} cUSD`}
                 </p>
               </div>
-              <div className="flex items-center space-x-2">
-                <Ticket className="h-6 w-6" />
-                <p className="text-2xl font-normal">
-                  {Number(event?.[8])} left
-                </p>
-              </div>
+              {!passed && (
+                <div className="flex items-center space-x-2">
+                  <Ticket className="h-6 w-6" />
+                  <p className="text-2xl font-normal">
+                    {Number(event?.[8])} left
+                  </p>
+                </div>
+              )}
               {/* Ticket purchase form */}
               {isTicketPurchased ? (
                 <Link href={`/tickets/${event?.[0]}`} prefetch={false}>
@@ -326,9 +329,7 @@ export default function EventDetailsPage({
                     Unveil your NFT ticket
                   </Button>
                 </Link>
-              ) : passed && !isTicketPurchased ? (
-                null
-              ) : (
+              ) : passed && !isTicketPurchased ? null : (
                 <form onSubmit={buyTicket}>
                   <Button
                     className="w-full hover:bg-blue-600 sm:w-auto"
@@ -402,7 +403,7 @@ export default function EventDetailsPage({
                     <p className="text-sm text-gray-800">
                       {comment.commenter === address?.toString()
                         ? "You"
-                        : `${(comment.commenter).slice(0,6)}...${(comment.commenter).slice(-4)}`}
+                        : `${comment.commenter.slice(0, 6)}...${comment.commenter.slice(-4)}`}
                     </p>
                     <p className="text-xs text-gray-500">
                       {new Date(Number(comment.timestamp)).toLocaleString(
