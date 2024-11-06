@@ -7,7 +7,7 @@
 
 ------
 
-<div align="center"> <table> <tr> <td align="center"> <img src="./Home.png" width="90%" alt="Home Page" /> </td> <td align="center"> <img src="./Create event.png" width="90%" alt="Create Event" /> </td> </tr> <tr> <td align="center"> <img src="./events.png" width="90%" alt="Events" /> </td> <td align="center"> <img src="./image.png" width="90%" alt="Image" /> </td> </tr> </table> </div>
+<div align="center"> <table> <tr> <td align="center"> <img src="./Home.png" width="90%" alt="Home Page" /> </td> <td align="center"> <img src="./Create event.png" width="90%" alt="Create Event" /> </td> </tr> <tr> <td align="center"> <img src="./hm.png" width="90%" alt="Events" /> </td> <td align="center"> <img src="./image.png" width="90%" alt="Image" /> </td> </tr> </table> </div>
 
 ------
 

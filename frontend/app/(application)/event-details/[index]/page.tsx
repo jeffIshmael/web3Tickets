@@ -400,21 +400,12 @@ export default function EventDetailsPage({
                 {/* Comment Header with Name and Date */}
                 <div className="flex items-center">
                   <div>
-                    <p className="text-sm text-gray-800">
+                  <p className="text-xs text-gray-500">
                       {comment.commenter === address?.toString()
                         ? "You"
                         : `${comment.commenter.slice(0, 6)}...${comment.commenter.slice(-4)}`}
                     </p>
-                    <p className="text-xs text-gray-500">
-                      {new Date(Number(comment.timestamp)).toLocaleString(
-                        "en-US",
-                        {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        },
-                      )}{" "}
-                    </p>
+                 
                     {/* Comment Text */}
                     <p className="mt-2 text-gray-800">{comment.text}</p>
                   </div>
