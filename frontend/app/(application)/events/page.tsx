@@ -64,7 +64,7 @@ export default function EventsPage() {
         <div className="space-y-6 md:space-y-8 lg:space-y-10">
           <div className="flex items-center justify-between">
             <h1 className="text-3xl font-bold md:text-4xl lg:text-5xl">
-              Upcoming Events
+              All Events
             </h1>
           </div>
 
@@ -96,62 +96,68 @@ export default function EventsPage() {
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8 lg:grid-cols-4 lg:gap-10">
                     {events?.map((event: Event, index: number) => (
                       <Link href={`/event-details/${index}`} key={index}>
-                        <div className="event-card overflow-hidden rounded-lg bg-white shadow-lg transition-shadow duration-300 hover:shadow-2xl">
-                          <Image
-                            alt="Event"
-                            className="event-image h-60 w-full object-cover transition-transform duration-300 hover:scale-105"
-                            height={200}
-                            width={200}
-                            src={`https://ipfs.io/ipfs/${event.ipfs}`}
-                            style={{
-                              aspectRatio: "300/200",
-                              objectFit: "cover",
-                            }}
-                          />
-                          <div className="event-details p-4 md:p-6">
-                            <h3 className="mb-2 text-lg font-semibold text-gray-800 md:text-xl">
-                              {event.name}
-                            </h3>
-                            <div className="mb-4 flex items-center justify-between border-b  border-gray-200 pb-2">
-                              <div className="flex flex-col space-y-1">
-                                <div className="flex items-center space-x-2">
-                                  <CircleDollarSign className="h-5 w-5 text-gray-500" />
-                                  {Number(event.price) === 0 ? (
-                                    <p className="text-gray-500">Free</p>
-                                  ) : (
-                                    <p className="text-gray-500">
-                                      {Number(event.price) / 10 ** 18} cUSD
-                                    </p>
-                                  )}
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                  <Calendar className="h-5 w-5 text-gray-500" />
-                                  <p className="text-gray-500">
-                                    {convertDateFromMilliseconds(
-                                      Number(event.date),
-                                    )}
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="mx-4 h-12 border-l border-gray-300"></div>
-                              <div className="flex flex-col space-y-1">
-                                <div className="flex items-center space-x-2">
-                                  <Clock className="h-5 w-5 text-gray-500" />
-                                  <p className="text-gray-500">{event.time}</p>
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                  <Ticket className="h-5 w-5 text-gray-500" />
-                                  <p className="text-gray-500">
-                                    {Number(event.ticketsAvailable)}
-                                  </p>
-                                </div>
-                              </div>
-                            </div>
-                            <p className="event-description mt-1 line-clamp-2 text-gray-600">
-                              {event.description}
-                            </p>
-                          </div>
-                        </div>
+                        <div className="event-card overflow-hidden rounded-lg bg-white shadow-lg transition-shadow duration-300 hover:shadow-2xl relative">
+  {/* Display "Ended" only when the event date has passed */}
+  {Date.now() > event.date && (
+    <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-xl font-semibold">
+      Ended
+    </div>
+  )}
+  
+  <Image
+    alt="Event"
+    className="event-image h-60 w-full object-cover transition-transform duration-300 hover:scale-105"
+    height={200}
+    width={200}
+    src={`https://ipfs.io/ipfs/${event.ipfs}`}
+    style={{
+      aspectRatio: "300/200",
+      objectFit: "cover",
+    }}
+  />
+  <div className="event-details p-4 md:p-6">
+    <h3 className="mb-2 text-lg font-semibold text-gray-800 md:text-xl">
+      {event.name}
+    </h3>
+    <div className="mb-4 flex items-center justify-between border-b  border-gray-200 pb-2">
+      <div className="flex flex-col space-y-1">
+        <div className="flex items-center space-x-2">
+          <CircleDollarSign className="h-5 w-5 text-gray-500" />
+          {Number(event.price) === 0 ? (
+            <p className="text-gray-500">Free</p>
+          ) : (
+            <p className="text-gray-500">
+              {Number(event.price) / 10 ** 18} cUSD
+            </p>
+          )}
+        </div>
+        <div className="flex items-center space-x-2">
+          <Calendar className="h-5 w-5 text-gray-500" />
+          <p className="text-gray-500">
+            {convertDateFromMilliseconds(Number(event.date))}
+          </p>
+        </div>
+      </div>
+      <div className="mx-4 h-12 border-l border-gray-300"></div>
+      <div className="flex flex-col space-y-1">
+        <div className="flex items-center space-x-2">
+          <Clock className="h-5 w-5 text-gray-500" />
+          <p className="text-gray-500">{event.time}</p>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Ticket className="h-5 w-5 text-gray-500" />
+          <p className="text-gray-500">
+            {Date.now() > event.date ? "--" : `${Number(event.ticketsAvailable)}`}
+          </p>
+        </div>
+      </div>
+    </div>
+    <p className="event-description mt-1 line-clamp-2 text-gray-600">
+      {event.description}
+    </p>
+  </div>
+</div>
+
                       </Link>
                     ))}
                   </div>
