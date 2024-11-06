@@ -11,11 +11,7 @@ export function Header() {
   const { connect } = useConnect();
   const { isConnected } = useAccount();
 
-  useEffect(() => {
-    if (!isConnected) {
-      connect({ connector: injected({ target: "metaMask" }) });
-    }
-  }, []);
+
 
   const navLinks = [
     {

@@ -21,7 +21,7 @@ import {
   blocTicketsAbi,
   contractAddress,
 } from "@/blockchain/abi/blocTickets-abi";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { processCheckout } from "@/lib/TokenFuction";
 
@@ -30,6 +30,8 @@ export default function CreateEventPage() {
   const [cid, setCid] = useState("");
   const [uploading, setUploading] = useState(false);
   const inputFile = useRef(null);
+  const [minDate, setMinDate] = useState("");
+  const [timeError, setTimeError] = useState(false);
   const { address, isConnected } = useAccount();
   const { isPending, error, writeContractAsync } = useWriteContract();
   const router = useRouter();
@@ -55,8 +57,13 @@ export default function CreateEventPage() {
     }
   };
 
-  console.log(uploading);
-  console.log(file);
+  useEffect(() => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    setMinDate(`${year}-${month}-${day}`);
+  }, []);
 
   const handleChange = (e: any) => {
     const selectedFile = e.target.files[0];
@@ -70,13 +77,26 @@ export default function CreateEventPage() {
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+   
+    const formData = new FormData(e.target as HTMLFormElement);
+    const data = Object.fromEntries(formData.entries());
+    console.log(data);
+
+    const selectedDate = new Date(`${data.date}T${data.time}`);
+    const currentDate = new Date();
+    console.log(`${selectedDate}, ${currentDate}`)
+
+    if (selectedDate < currentDate) {
+      setTimeError(true);
+      toast.error("Please select a future date and time.");
+      return;
+    }
+    setTimeError(false);
+    
     if (!isConnected) {
       toast.error("Please connect your wallet");
       return;
     }
-    const formData = new FormData(e.target as HTMLFormElement);
-    const data = Object.fromEntries(formData.entries());
-    console.log(data);
     try {
       const dateObject = new Date(data.date as string);
       const dateInMilliseconds = dateObject.getTime();
@@ -162,6 +182,7 @@ export default function CreateEventPage() {
                   onChange={(event) =>
                     setCategory((event.target as HTMLInputElement).value as string)
                   }
+                 
                 >
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
@@ -184,20 +205,21 @@ export default function CreateEventPage() {
 
             <div className="space-y-1.5">
               <Label htmlFor="date">Date</Label>
-              <Input id="date" name="date" type="date" required />
+              <Input id="date" name="date" type="date" min={minDate} required />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="time">Time</Label>
               <Input id="time" name="time" type="time"  required />
+              {timeError && <p className="text-red-500">Select a valid future time.</p>}
             </div>
 
             <div className="space-y-1.5">
               <Label htmlFor="price">Price (cUSD)</Label>
-              <Input id="price" name="price" required />
+              <Input id="price" name="price" type="number" required />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="tickets">Number of Tickets</Label>
-              <Input id="tickets" name="tickets" type="number" required />
+              <Input id="tickets" name="tickets" type="number" min={1} step={1} required />
             </div>
 
             <div className="space-y-1.5">
