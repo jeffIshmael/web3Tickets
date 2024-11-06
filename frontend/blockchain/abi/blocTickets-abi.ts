@@ -1,6 +1,6 @@
-export const contractAddress = "0x48b9cE0A913ae7e633192ac6684BAD8bAC4F6f6D";
+export const contractAddress = "0x4dEE335F6cFE2748DA7F4CD8Ce8d7B24c7B0282c";
 // "0x91061Da059075c782D90E2c9161A55A7b866b5ae";
-export const blocTicketsAbi =  [
+export const blocTicketsAbi = [
   {
     "inputs": [],
     "stateMutability": "nonpayable",
@@ -317,6 +317,52 @@ export const blocTicketsAbi =  [
         "internalType": "string",
         "name": "ipfs",
         "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalRating",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "ratingCount",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "eventId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getAllComments",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "commenter",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "text",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct BlocTickets.Comment[]",
+        "name": "",
+        "type": "tuple[]"
       }
     ],
     "stateMutability": "view",
@@ -392,6 +438,11 @@ export const blocTicketsAbi =  [
             "internalType": "string[]",
             "name": "nftUris",
             "type": "string[]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "averageRating",
+            "type": "uint256"
           }
         ],
         "internalType": "struct BlocTickets.EventView[]",
@@ -416,6 +467,25 @@ export const blocTicketsAbi =  [
         "internalType": "address",
         "name": "",
         "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "eventId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getAverageRating",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -495,6 +565,38 @@ export const blocTicketsAbi =  [
         "internalType": "string[]",
         "name": "",
         "type": "string[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "commenter",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "text",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "timestamp",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct BlocTickets.Comment[]",
+        "name": "",
+        "type": "tuple[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -576,6 +678,11 @@ export const blocTicketsAbi =  [
             "internalType": "string[]",
             "name": "nftUris",
             "type": "string[]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "averageRating",
+            "type": "uint256"
           }
         ],
         "internalType": "struct BlocTickets.EventView[]",
@@ -662,6 +769,11 @@ export const blocTicketsAbi =  [
             "internalType": "string[]",
             "name": "nftUris",
             "type": "string[]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "averageRating",
+            "type": "uint256"
           }
         ],
         "internalType": "struct BlocTickets.EventView[]",
@@ -895,6 +1007,42 @@ export const blocTicketsAbi =  [
       }
     ],
     "name": "setApprovalForAll",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "eventId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "comment",
+        "type": "string"
+      }
+    ],
+    "name": "submitComment",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "eventId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint8",
+        "name": "rating",
+        "type": "uint8"
+      }
+    ],
+    "name": "submitRating",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

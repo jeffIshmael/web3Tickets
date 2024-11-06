@@ -37,7 +37,18 @@ contract BlocTickets is ERC721URIStorage, Ownable {
         address[] ticketHolders;
         string[] nftUris;
         mapping(address => string[]) userToNftUris; // Map user address to NFT URIs for this event
+        mapping(address => uint8) ratings; // Stores ratings by each attendee (1-5)
+        Comment[] comments; // Array to store all comments for this event
+        uint totalRating;
+        uint ratingCount;
     }
+
+    struct Comment {
+        address commenter;
+        string text;
+        uint timestamp;
+    }
+
 
     struct EventView {
         uint id;
@@ -53,6 +64,7 @@ contract BlocTickets is ERC721URIStorage, Ownable {
         string ipfs;
         address[] ticketHolders;
         string[] nftUris;
+        uint averageRating;
     }
 
     Event[] public events;
@@ -111,6 +123,45 @@ contract BlocTickets is ERC721URIStorage, Ownable {
         nextTicketId++;
     }
 
+    function submitRating(uint eventId, uint8 rating) public {
+        Event storage _event = events[eventId];
+        require(block.timestamp > _event.date, "Rating can only be given after the event date");
+        require(rating >= 1 && rating <= 5, "Rating should be between 1 and 5");
+        require(_event.ratings[msg.sender] == 0, "You have already rated this event");
+
+        _event.ratings[msg.sender] = rating;
+        _event.totalRating += rating;
+        _event.ratingCount += 1;
+    }
+
+    function getAverageRating(uint eventId) public view returns (uint) {
+        Event storage _event = events[eventId];
+        if (_event.ratingCount == 0) return 0;
+        return _event.totalRating / _event.ratingCount;
+    }
+
+    function submitComment(uint eventId, string memory comment) public {
+        Event storage _event = events[eventId];
+        bool isTicketHolder = false;
+        
+        // Check if the sender is a ticket holder
+        for (uint i = 0; i < _event.ticketHolders.length; i++) {
+            if (_event.ticketHolders[i] == msg.sender) {
+                isTicketHolder = true;
+                break;
+            }
+        }
+
+        require(isTicketHolder, "Only ticket holders can comment on the event");
+
+        _event.comments.push(Comment(msg.sender, comment, block.timestamp));
+    }
+
+    function getAllComments(uint eventId) public view returns (Comment[] memory) {
+        Event storage _event = events[eventId];
+        return _event.comments;
+    }
+
     function getEvent(uint eventId) public view returns (
         uint,
         address,
@@ -124,7 +175,10 @@ contract BlocTickets is ERC721URIStorage, Ownable {
         string memory,
         string memory,
         address[] memory,
-        string[] memory
+        string[] memory,
+        Comment[] memory,
+        uint,
+        uint
     ) {
         Event storage _event = events[eventId];
         return (
@@ -140,7 +194,10 @@ contract BlocTickets is ERC721URIStorage, Ownable {
             _event.description,
             _event.ipfs,
             _event.ticketHolders,
-            _event.nftUris
+            _event.nftUris,
+            _event.comments,            
+            _event.totalRating,
+            _event.ratingCount
         );
     }
 
@@ -161,7 +218,9 @@ contract BlocTickets is ERC721URIStorage, Ownable {
                 _event.description,
                 _event.ipfs,
                 _event.ticketHolders,
-                _event.nftUris
+                _event.nftUris,
+                _event.totalRating
+            
             );
         }
         return result;
@@ -202,7 +261,8 @@ contract BlocTickets is ERC721URIStorage, Ownable {
                         _event.description,
                         _event.ipfs,
                         _event.ticketHolders,
-                        _event.nftUris
+                        _event.nftUris,
+                        _event.totalRating
                     );
                     index++;
                     break;
@@ -239,7 +299,8 @@ contract BlocTickets is ERC721URIStorage, Ownable {
                     _event.description,
                     _event.ipfs,
                     _event.ticketHolders,
-                    _event.nftUris
+                    _event.nftUris,
+                    _event.totalRating
                 );
                 index++;
             }

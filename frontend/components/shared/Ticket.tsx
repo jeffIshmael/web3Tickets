@@ -10,7 +10,7 @@ interface Details {
   category: string;
   location: string;
   organiser: string;
-  price: number;
+  price: string;
   walletAddress: string;
   timestamp: number;
   ticketNo: number;
@@ -39,7 +39,7 @@ export const generateTicketImage = async (ticketDetails: Details) => {
     From: organiser,
     To: walletAddress,
     Time: formattedTime,
-    Amount: `${price} cUSD`,
+    Amount: price,
     TicketNo: ticketNo,
   });
 
@@ -71,7 +71,7 @@ export const generateTicketImage = async (ticketDetails: Details) => {
         </div>
         <div class="mt-6 rounded-lg bg-gray-900 bg-opacity-50 p-4">
           <p class="text-sm uppercase">Price</p>
-          <p class="text-2xl font-bold text-nude">${price} cUSD</p>
+          <p class="text-2xl font-bold text-nude">${price}</p>
         </div>
       </div>
       <div class="relative flex min-h-full flex-col items-center justify-center bg-nude p-6">
