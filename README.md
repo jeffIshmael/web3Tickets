@@ -7,7 +7,7 @@
 
 ------
 
-<div align="center"> <table> <tr> <td align="center"> <img src="./Home.png" width="90%" alt="Home Page" /> </td> <td align="center"> <img src="./Create event.png" width="90%" alt="Create Event" /> </td> </tr> <tr> <td align="center"> <img src="./hm.png" width="90%" alt="Events" /> </td> <td align="center"> <img src="./image.png" width="90%" alt="Image" /> </td> </tr> </table> </div>
+<div align="center"> <table> <tr> <td align="center"> <img src="./Home.png" width="90%" alt="Home Page" /> </td> <td align="center"> <img src="./Create event.png" width="90%" alt="Create Event" /> </td> </tr> <tr> <td align="center"> <img src="./hm.png" width="90%" alt="Events" /> </td> <td align="center"> <img src="./image.png" width="90%" alt="Image" /> </td> </tr><tr> <td align="center"> <img src="./commnt.png" width="90%" alt="Interact" /> </td> <td align="center"> <img src="./tickets.png" width="90%" alt="my tickets" /> </td> </tr> </table> </div>
 
 ------
 
@@ -38,6 +38,10 @@
 - **NFT Ticketing System**: All tickets will be issued as NFTs, providing a secure and verifiable method of ticket distribution. This system will prevent ticket scalping and fraud by ensuring each ticket is unique and traceable.
 - **Blockchain-Based Transactions**: All ticket sales and transfers will be recorded on the blockchain, ensuring transparency and immutability of all transactions.
 - **User-Friendly Interface**: The platform will be designed with a focus on usability, ensuring a seamless experience for both event organizers and attendees.
+
+#### Additional Features
+- **Rating Section**: There is a section where only those who bought the tickets rate how the event was. This section only works after the event has passed.
+- **Interact Section**: There is a section where ticket holders can interact by posting comments. Ticket holders can also use this section to give feedback on how the event was.
 
 
 ## Installation and Setup
