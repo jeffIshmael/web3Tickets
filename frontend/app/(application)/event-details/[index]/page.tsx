@@ -256,7 +256,7 @@ export default function EventDetailsPage({
       }
     } catch (error) {
       console.log(error);
-      toast.error("Unable to send comment. Try again.");
+      toast.error("Unable to submit rating. Try again.");
     } finally {
       setLoading(false);
     }
