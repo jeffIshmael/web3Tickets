@@ -239,7 +239,7 @@ export default function CreateEventPage() {
 
             <div className="space-y-1.5">
               <Label htmlFor="price">Price (cUSD)</Label>
-              <Input id="price" name="price" type="number" required />
+              <Input id="price" name="price" type="number" min={0} step={0.01} required />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="tickets">Number of Tickets</Label>

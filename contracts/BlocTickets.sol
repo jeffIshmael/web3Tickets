@@ -126,7 +126,7 @@ contract BlocTickets is ERC721URIStorage, Ownable {
 //1730960386000n
     function submitRating(uint eventId, uint8 rating) public {
         Event storage _event = events[eventId];
-        require(block.timestamp > _event.date, "Rating can only be given after the event date");
+        require(block.timestamp > _event.date/1000, "Rating can only be given after the event date");
         require(rating >= 1 && rating <= 5, "Rating should be between 1 and 5");
         require(_event.ratings[msg.sender] == 0, "You have already rated this event");
 
