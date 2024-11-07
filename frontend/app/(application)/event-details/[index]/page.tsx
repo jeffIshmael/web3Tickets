@@ -208,7 +208,7 @@ export default function EventDetailsPage({
       }
     } catch (error) {
       console.log(error);
-      toast.error("Purchase failed!");
+      toast.error(`Purchase failed!Ensure you have ${Number(event?.[7])/10**18} cUSD`);
       toast.error(`${error}`);
     } finally {
       setProcessing(false);
@@ -400,12 +400,25 @@ export default function EventDetailsPage({
                 {/* Comment Header with Name and Date */}
                 <div className="flex items-center">
                   <div>
-                  <p className="text-xs text-gray-500">
+                    <p className="text-xs text-gray-700">
                       {comment.commenter === address?.toString()
                         ? "You"
                         : `${comment.commenter.slice(0, 6)}...${comment.commenter.slice(-4)}`}
                     </p>
-                 
+
+                    <p className="text-xs text-gray-500">
+                      {new Date(
+                        Number(comment.timestamp) * 1000,
+                      ).toLocaleString("en-GB", {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false,
+                      })}
+                    </p>
+
                     {/* Comment Text */}
                     <p className="mt-2 text-gray-800">{comment.text}</p>
                   </div>

@@ -1,5 +1,5 @@
-export const contractAddress = "0x4dEE335F6cFE2748DA7F4CD8Ce8d7B24c7B0282c";
-// "0x91061Da059075c782D90E2c9161A55A7b866b5ae";
+export const contractAddress = "0xc4A5985Aa3f3EAcCC99E62da9819c4e92889e0e7";
+// "0x4dEE335F6cFE2748DA7F4CD8Ce8d7B24c7B0282c";
 export const blocTicketsAbi = [
   {
     "inputs": [],
