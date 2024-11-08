@@ -87,18 +87,24 @@ export default function EventDetailsPage({
     if (event?.[11]) {
       setHolders([...event[11]]);
     }
-    if (event?.[15] && event?.[14]) {
-      const total = event?.[15];
-      const count = event?.[14];
-      const average = Number(total) / Number(count);
-      setRating(parseFloat(average.toFixed(1)));
-    }
+
     if (event?.[5]) {
       if (Date.now() > Number(event?.[5])) {
         setPassed(true);
       }
     }
+    if (event?.[15] && event?.[14]) {
+      const total = event?.[14];
+      const count = event?.[15];
+      const average = Number(total) / Number(count);
+      console.log("Calculated average:", average); // Log the calculated average
+      setRating(average);
+    }
   }, [event]);
+
+  useEffect(() => {
+    console.log("Updated rating:", rating);
+  }, [rating]);
 
   async function buyTicket(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -208,7 +214,9 @@ export default function EventDetailsPage({
       }
     } catch (error) {
       console.log(error);
-      toast.error(`Purchase failed!Ensure you have ${Number(event?.[7])/10**18} cUSD`);
+      toast.error(
+        `Purchase failed!Ensure you have ${Number(event?.[7]) / 10 ** 18} cUSD`,
+      );
       toast.error(`${error}`);
     } finally {
       setProcessing(false);
