@@ -40,11 +40,12 @@ export default function EventDetailsPage({
   const [processing, setProcessing] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]); // For event comments
   const [holders, setHolders] = useState<`0x${string}`[]>([]);
-  const [rating, setRating] = useState(0); // Rating value
+  const [selectedRating, setSelectedRating] = useState(0); // Rating value
   const { writeContractAsync: getSubmission } = useWriteContract();
   const [loading, setLoading] = useState(false);
-  const [selectedRating, setSelectedRating] = useState(0); // Selected rating value
+  const [rating, setRating] = useState<number | undefined>(undefined);// Selected rating value
   const [passed, setPassed] = useState(false);
+  const [showStar, setShowStar] = useState(false);
 
   const {
     data: event,
@@ -93,17 +94,24 @@ export default function EventDetailsPage({
         setPassed(true);
       }
     }
-    if (event?.[15] && event?.[14]) {
-      const total = event?.[14];
-      const count = event?.[15];
-      const average = Number(total) / Number(count);
-      console.log("Calculated average:", average); // Log the calculated average
-      setRating(average);
+  }, [event]);
+
+  useEffect(() => {
+    if (event?.[14] && event?.[15]) {
+      const total = Number(event[14]);
+      const count = Number(event[15]);
+      const average = count > 0 ? (total / count).toFixed(2) : 0; // Calculate average safely
+
+      console.log("Calculated average:", average);
+      setRating(Number(average)); // Set as a number for ReactStars
     }
   }, [event]);
 
   useEffect(() => {
-    console.log("Updated rating:", rating);
+    if (rating !== undefined) { // Only show stars after rating is set
+      console.log("Updated rating:", rating);
+      setShowStar(true);
+    }
   }, [rating]);
 
   async function buyTicket(e: React.FormEvent<HTMLFormElement>) {
@@ -264,7 +272,7 @@ export default function EventDetailsPage({
       }
     } catch (error) {
       console.log(error);
-      toast.error("Unable to submit rating. Try again.");
+      toast.error("Unable to submit rating. You have already rated the event.");
     } finally {
       setLoading(false);
     }
@@ -361,17 +369,19 @@ export default function EventDetailsPage({
                   </Button>
                 </form>
               )}
-              <div className="flex items-center">
-                <ReactStars
-                  count={5}
-                  size={20}
-                  activeColor="#ffd700"
-                  value={rating}
-                  isHalf={true}
-                  edit={false}
-                />
-                <span className="text-gray-600">({Number(event?.[15])})</span>
-              </div>
+              {showStar && (
+                <div className="flex items-center">
+                  <ReactStars
+                    count={5}
+                    size={20}
+                    activeColor="#ffd700"
+                    value={rating}                   
+                    isHalf={true}
+                    edit={false}
+                  />
+                  <span className="text-gray-600">({Number(event?.[15])}){rating}</span>
+                </div>
+              )}
             </div>
             <div className="relative">
               <Image
